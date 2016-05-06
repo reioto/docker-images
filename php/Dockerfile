@@ -68,4 +68,6 @@ RUN apt-get autoremove -y && apt-get clean all
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin --filename=composer
 
+COPY php.ini /usr/local/etc/php/
+
 CMD apache2-foreground
