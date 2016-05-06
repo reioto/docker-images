@@ -7,8 +7,7 @@ RUN docker-php-ext-install bz2
 RUN apt-get install -y libcurl4-openssl-dev
 RUN docker-php-ext-install curl
 
-RUN apt-get install -y libfreetype6-dev
-RUN apt-get install -y libgd-dev
+RUN apt-get install -y libfreetype6-dev libgd-dev
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr
 RUN docker-php-ext-install gd exif
 
@@ -32,7 +31,13 @@ RUN apt-get install -y libc-client-dev libkrb5-dev
 RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl
 RUN docker-php-ext-install imap 
 
-RUN docker-php-ext-install bcmath \
+RUN docker-php-ext-install \
+session \
+sockets \
+soap \
+wddx \
+zip \
+bcmath \
 calendar \
 ctype \
 dba \
@@ -42,10 +47,10 @@ hash \
 iconv \ 
 json \
 mbstring \
-mysqli \
 opcache \
 phar \
 pdo \
+mysqli \
 pdo_mysql
 
 RUN apt-get install -y libpq-dev
@@ -57,21 +62,10 @@ RUN docker-php-ext-install pdo_sqlite
 RUN apt-get install -y libedit-dev
 RUN docker-php-ext-install posix readline 
 
-RUN docker-php-ext-install \ 
-session \
-soap \
-sockets \
-wddx \
-zip
-#spl \
-#reflection \
-#standard \
-#filter
-
 RUN a2enmod rewrite
 
 RUN apt-get autoremove -y && apt-get clean all
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin --filename=composer
 
-CMD apache2 -DFOREGROUND
+CMD apache2-foreground
